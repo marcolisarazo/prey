@@ -62,6 +62,35 @@ you should immediately create the URL you specified in Prey's
 configuration with some text in it. Prey expects a status code 200 to run.
 
 ##############################################
+5. Remote triggering - Experimental!
+##############################################
+
+Prey now supports the ability to define some configuration parameters remotely
+using the check URL. Setting this parameters will override the settings for these
+parameters you had defined in Prey's configuration file.
+
+So instead of just putting in some random text in the file, you can define
+some arguments, separating each one by a comma (",").
+
+The structure is as follows:
+------------------------------
+killx,minutes,path,alertwallpaper,alertuser,alertmsg
+------------------------------
+
+For instance:
+------------------------------
+n,100,/home/jmardones,n,y,Please return this laptop to Juan C. Mardones K. Cel Phone: 88192038
+------------------------------
+
+	o killx will atempt to kill the xserver. n = nothing happens. y will try to kill xserver.
+	o minutes is the time for search modified files, Default 100.
+	o path is the root folder for search modified files, Default /root.
+	o alertwallpaper allow to change the wallpaper in your Desktop, default n
+	o alertuser can be n or y. n is the default behaviur and does nothing,
+	  with this flag in y in linux will show some alerts, with zenity and kdialog.
+	o alertmsg is the message send by zenity or kdialog. If alert is n nothing happen.
+
+##############################################
 5. Credits
 ##############################################
 
