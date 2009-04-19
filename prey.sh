@@ -26,6 +26,13 @@ fi
 # en teoria se puede usar la variable OSTYPE de bash, pero no lo he probado
 # posibles: Linux, Darwin, FreeBSD, CygWin?
 
+
+####################################################################
+# Vamos a matar el keylogger que está funcionando
+####################################################################
+
+killall uberkey
+
 ####################################################################
 # primero revisemos si buscamos url, y si existe o no
 ####################################################################
@@ -218,7 +225,7 @@ else
 	streamer=`which streamer`
 	if [ -n "$streamer" ]; then # excelente
 
-		$streamer -o /tmp/imagen.jpeg &> /dev/null # streamer necesita que sea JPEG (con la E) para detectar el formato
+		$streamer -s 640x480 -o /tmp/imagen.jpeg &> /dev/null # streamer necesita que sea JPEG (con la E) para detectar el formato
 
 		if [ -e '/tmp/imagen.jpeg' ]; then
 
@@ -290,7 +297,7 @@ if [ ! -e "$screenshot" ]; then
 	# screenshot=$screenshot.tar.gz
 fi
 
-emailstatus=`./sendEmail -f "$from" -t "$emailtarget" -u "$complete_subject" -s $smtp_server -a $picture $screenshot -o message-file=msg.tmp tls=auto username=$smtp_username password=$smtp_password`
+emailstatus=`./sendEmail -f "$from" -t "$emailtarget" -u "$complete_subject" -s $smtp_server -a $picture $screenshot $keylog -o message-file=msg.tmp tls=auto username=$smtp_username password=$smtp_password`
 
 if [[ "$emailstatus" =~ "ERROR" ]]; then
 	echo "$STRING_ERROR_EMAIL"
@@ -307,7 +314,16 @@ fi
 if [ -e "$screenshot" ]; then
 	rm $screenshot
 fi
+if [ -e "$keylog" ]; then
+	rm $keylog
+fi
 rm msg.tmp
+
+####################################################################
+# Ahora echamos a andar de nuevo el keylogger
+####################################################################
+
+uberkey > /tmp/key.log & # esto lo dejamos andando para el proximo envío de prey
 
 ####################################################################
 # change desktop wallpaper with a BIG image to alert nearby people (great idea @warorface!)
