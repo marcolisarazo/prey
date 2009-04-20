@@ -28,7 +28,7 @@ fi
 
 
 ####################################################################
-# Vamos a matar el keylogger que está funcionando
+# Vamos a matar el keylogger que está andando
 ####################################################################
 
 killall uberkey
